@@ -1,0 +1,45 @@
+{
+  "name": "ph24-cli",
+  "version": "0.1.0",
+  "description": "Command-line interface for the ph24 (ProHosting24) API, generated from its OpenAPI spec",
+  "type": "module",
+  "bin": {
+    "ph24": "dist/ph24.js"
+  },
+  "files": [
+    "dist/ph24.js",
+    "skills",
+    "docs",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "generate": "bun scripts/generate.ts",
+    "build": "bun build src/cli.ts --target=node --outfile dist/ph24.js && chmod +x dist/ph24.js",
+    "build:binary": "bun build src/cli.ts --compile --outfile dist/ph24-bin",
+    "dev": "bun src/cli.ts",
+    "test": "bun test",
+    "typecheck": "tsc --noEmit",
+    "check": "bun run generate && bunx tsc --noEmit && bun test && bun run build"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^22",
+    "typescript": "^5.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/newspicel/ph24-cli.git"
+  },
+  "license": "MIT",
+  "keywords": [
+    "ph24",
+    "prohosting24",
+    "cli",
+    "openapi",
+    "claude"
+  ]
+}
