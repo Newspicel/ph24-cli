@@ -1,11 +1,11 @@
 ---
 name: ph24-cli
-description: The ph24 CLI for the ProHosting24 (ph24.io) API, generated from its OpenAPI spec. Use for anything on ph24 / ProHosting24 from the terminal — signing in with a project API token, finding commands with ph24 cli search, ph24 schema, and running its 290 API commands (cloud, vps, kubernetes, subscriptions, domains, webhostings, dns-zones, firewalls, ip-lists, catalog). Use whenever the user mentions ph24, ProHosting24 or their servers, domains or cloud there.
+description: The ph24 CLI for the ProHosting24 (ph24.io) API, generated from its OpenAPI spec. Use for anything on ph24 / ProHosting24 from the terminal — signing in with a project API token, finding commands with ph24 cli search, ph24 schema, and running its 296 API commands (cloud, vps, kubernetes, subscriptions, domains, webhostings, dns-zones, firewalls, ip-lists, catalog, handovers). Use whenever the user mentions ph24, ProHosting24 or their servers, domains or cloud there.
 ---
 
 # ProHosting24 CLI (`ph24`)
 
-`ph24` is a command-line interface for the ph24 API (`https://ph24.io/api/v1`). Its 290 API commands are generated from the OpenAPI spec (ph24 API 1.0.0): every endpoint that works with a project API token, plus the public catalogue endpoints. Account, organization, login and token management are customer-area only and are not in the CLI.
+`ph24` is a command-line interface for the ph24 API (`https://ph24.io/api/v1`). Its 296 API commands are generated from the OpenAPI spec (ph24 API 1.0.0): every endpoint that works with a project API token, plus the public catalogue endpoints. Account, organization, login and token management are customer-area only and are not in the CLI.
 
 **Prefer retrieval over memory.** Describe the task to `ph24 cli search`, inspect the match with `ph24 schema` or `--help`, and preview with `--dry-run` before running a command you have not verified.
 
@@ -36,22 +36,23 @@ Commands follow the API paths: `/projects/{project}/vps/{vps}/power` is `ph24 vp
 Command groups:
 
 - `catalog` (2): Catalog
-- `cloud` (116): Cloud volumes, Cloud certificates, Cloud, Cloud firewalls, Cloud networking, Cloud images, Cloud servers, Cloud load balancers
+- `cloud` (119): Cloud volumes, Cloud certificates, Cloud, Cloud firewalls, Cloud networking, Cloud images, Cloud servers, Cloud load balancers
 - `dns-zones` (7): DNS
 - `domain-check` (1): Domains
 - `domain-contacts` (1): Domains
 - `domain-prices` (1): Domains
 - `domains` (16): Domains, Mailboxes
 - `firewalls` (7): Server firewalls
+- `handovers` (2): Services
 - `immediate-start` (1): Services
 - `invoice-address` (1): Services
 - `ip-lists` (5): Server firewalls
 - `kubernetes` (27): Kubernetes
 - `project` (1): Projects
-- `public` (34): Public, Developers, Catalog, Cloud images, Account, Domains, Health, Realtime
-- `realtime` (1): Realtime
+- `public` (34): Public, Developers, Catalog, Cloud images, Account, Domains
+- `realtime` (1): Projects
 - `subscriptions` (19): Services
-- `vps` (34): Job, Backup, Servers, Server firewalls, RootPassword, Stats
+- `vps` (35): Servers, Server firewalls, Services
 - `webhostings` (16): Webhosting
 
 ## Pass arguments
@@ -73,7 +74,7 @@ Command groups:
 ## Run commands safely
 
 - **Preview first.** `--dry-run` prints the request without sending it and needs no credentials.
-- **Destructive commands need `--force`.** 42 commands (every delete, and endpoints whose docs say data or access is lost, e.g. `vps reinstall`, `cloud servers rebuild`, `subscriptions end`) refuse to run without a terminal unless `--force` is given, and exit 2. Get the user's explicit go-ahead before adding `--force`.
+- **Destructive commands need `--force`.** 44 commands (every delete, and endpoints whose docs say data or access is lost, e.g. `vps reinstall`, `cloud servers rebuild`, `subscriptions end`) refuse to run without a terminal unless `--force` is given, and exit 2. Get the user's explicit go-ahead before adding `--force`.
 - **Commands that cost money** are marked `costs_money` in `cli search` and `schema` (orders, cloud resources, renewals). Show the user the price (quote / price-preview commands) and confirm before running them.
 
 ## Errors
@@ -84,10 +85,10 @@ Exit codes: 0 ok · 1 other error · 2 usage (bad flags, missing --force) · 3 n
 
 - 400: `bad-request`
 - 401: `unauthenticated`, `invalid-credentials`
-- 403: `email-not-verified`, `sudo-required`, `session-required`, `two-factor-required`, `token-ip-not-allowed`, `invitation-email-mismatch`, `impersonation-blocked`, `account-locked`, `forbidden`, `organization-restricted`, `account-pending-deletion`, `account-moving`, `staff-ability-missing`
+- 403: `email-not-verified`, `sudo-required`, `session-required`, `two-factor-required`, `token-ip-not-allowed`, `invitation-email-mismatch`, `impersonation-blocked`, `account-locked`, `forbidden`, `organization-restricted`, `account-pending-deletion`, `account-moving`, `staff-ability-missing`, `handover-email-mismatch`
 - 404: `not-found`
 - 405: `method-not-allowed`
-- 409: `conflict`, `operation-in-progress`, `service-suspended`, `service-locked`, `service-suspended-by-staff`, `already-member`, `last-owner`, `not-empty`, `price-changed`, `limit-reached`, `change-not-allowed`, `fee-not-confirmed`, `payment-status-unclear`, `export-limit`, `idempotency-in-progress`, `in-use`, `external-network-read-only`, `no-address-available`, `external-network-unreachable`, `address-not-held`, `already-assigned`, `vps-guest-agent-unavailable`, `vps-firewall-unmanaged`, `dpa-version-outdated`, `terms-acceptance-required`, `rule-exists`, `last-firewall`, `managed-firewall`, `managed-by-kubernetes`, `cloud-not-set-up`, `firewall-limit-reached`
+- 409: `conflict`, `operation-in-progress`, `service-suspended`, `service-locked`, `service-suspended-by-staff`, `already-member`, `last-owner`, `not-empty`, `price-changed`, `limit-reached`, `change-not-allowed`, `fee-not-confirmed`, `payment-status-unclear`, `export-limit`, `idempotency-in-progress`, `in-use`, `external-network-read-only`, `no-address-available`, `external-network-unreachable`, `address-not-held`, `already-assigned`, `vps-guest-agent-unavailable`, `vps-firewall-unmanaged`, `dpa-version-outdated`, `terms-acceptance-required`, `rule-exists`, `last-firewall`, `managed-firewall`, `managed-by-kubernetes`, `cloud-not-set-up`, `firewall-limit-reached`, `handover-not-pending`, `service-handover-pending`
 - 410: `link-invalid`
 - 413: `payload-too-large`
 - 422: `validation-failed`, `not-orderable`, `legacy-plan-change-first`, `insufficient-credit`, `billing-profile-incomplete`, `verification-limit-reached`, `ssh-key-exists`, `credit-limit-reached`, `quota-exceeded`, `postpaid-not-possible`, `payment-method-unusable`, `prepayment-not-refundable`, `code-invalid`, `code-locked`, `voucher-limit-reached`, `deletion-blocked`, `idempotency-key-required`, `idempotency-conflict`, `next-hop-not-connected`, `next-hop-in-use`, `guest-agent-command-disabled`, `guest-agent-unavailable`, `guest-agent-timeout`, `affiliate-terms-required`, `captcha-failed`, `immediate-start-required`, `cloud-consent-required`, `certificate-invalid`, `flavor-not-offered`, `confirmation-required`

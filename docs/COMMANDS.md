@@ -2,7 +2,7 @@
 
 Generated from the [ph24 OpenAPI spec](https://ph24.io/docs/api/openapi.json) (ph24 API 1.0.0). Do not edit: run `bun run generate`.
 
-290 commands. ⚠ = destructive (needs `--force`), 💶 = may cost money.
+296 commands. ⚠ = destructive (needs `--force`), 💶 = may cost money.
 
 ## catalog
 
@@ -621,13 +621,17 @@ Rename a router. `PATCH /projects/{project}/cloud/routers/{router}` · ability `
 |---|---|---|---|
 | `--name` | string | required | Plain text, up to 255 characters. |
 
-### `ph24 cloud servers action <server> <action>`
+### `ph24 cloud servers action <server> <action>` 💶
 
 Run a server action. `POST /projects/{project}/cloud/servers/{server}/actions/{action}` · ability `cloud.manage` · beta
 
 ### `ph24 cloud servers action-log <server>`
 
 List a cloud server's action history. `GET /projects/{project}/cloud/servers/{server}/action-log` · ability `cloud.view` · beta
+
+### `ph24 cloud servers confirm-resize <server>` 💶
+
+Confirm a resize. `POST /projects/{project}/cloud/servers/{server}/actions/confirm-resize` · ability `cloud.manage` · beta
 
 ### `ph24 cloud servers create` 💶
 
@@ -717,6 +721,14 @@ Resize a cloud server. `POST /projects/{project}/cloud/servers/{server}/actions/
 | Flag | Type | | Description |
 |---|---|---|---|
 | `--flavor-id` | string | required | Another flavor of the location (OpenStack id). A bigger disk grows the boot volume; a smaller one keeps it as it is. |
+
+### `ph24 cloud servers revert-resize <server>` 💶
+
+Revert a resize. `POST /projects/{project}/cloud/servers/{server}/actions/revert-resize` · ability `cloud.manage` · beta
+
+### `ph24 cloud servers shelve <server>` 💶
+
+Shelve a cloud server. `POST /projects/{project}/cloud/servers/{server}/actions/shelve` · ability `cloud.manage` · beta
 
 ### `ph24 cloud servers snapshot <server>` 💶
 
@@ -1187,6 +1199,16 @@ Change a firewall. `PUT /projects/{project}/firewalls/{firewall}` · ability `se
 | `--name` | string | required | Up to 64 characters, unique in the project. |
 | `--outbound` | json | required | Outbound traffic: the default (`policy`) and the `rules`. |
 
+## handovers
+
+### `ph24 handovers delete <handover>` ⚠
+
+Revoke a hand-over. `DELETE /projects/{project}/handovers/{handover}` · ability `services.handover` · beta
+
+### `ph24 handovers resend <handover>` ⚠
+
+Send a hand-over link again. `POST /projects/{project}/handovers/{handover}/resend` · ability `services.handover` · beta
+
 ## immediate-start
 
 ### `ph24 immediate-start`
@@ -1391,7 +1413,7 @@ Show a node pool. `GET /projects/{project}/kubernetes/clusters/{cluster}/node-po
 
 List the node pools of a cluster. `GET /projects/{project}/kubernetes/clusters/{cluster}/node-pools` · ability `cloud.view` · beta
 
-### `ph24 kubernetes node-pools update <cluster> <pool>`
+### `ph24 kubernetes node-pools update <cluster> <pool>` 💶
 
 Change or scale a node pool. `PATCH /projects/{project}/kubernetes/clusters/{cluster}/node-pools/{pool}` · ability `cloud.manage` · beta
 
@@ -1725,7 +1747,7 @@ Order a service. `POST /projects/{project}/subscriptions` · ability `services.o
 | `--plan-id` | string | required | The plan to order (`pln_…`, from the public catalog API). |
 | `--prepay-months` | integer |  | With `prepay`: 3, 6 or 12 months (the plan's `prepayment` periods). |
 
-### `ph24 subscriptions end <subscription>` ⚠
+### `ph24 subscriptions end <subscription>` ⚠ 💶
 
 End a service. `POST /projects/{project}/subscriptions/{subscription}/end` · ability `services.manage` · beta
 
@@ -1741,7 +1763,7 @@ What ending a service now would mean. `GET /projects/{project}/subscriptions/{su
 
 Get a service. `GET /projects/{project}/subscriptions/{subscription}` · ability `services.view` · beta
 
-### `ph24 subscriptions keep <subscription>`
+### `ph24 subscriptions keep <subscription>` 💶
 
 Keep a service. `POST /projects/{project}/subscriptions/{subscription}/keep` · ability `services.manage` · beta
 
@@ -1908,6 +1930,10 @@ Get a server. `GET /projects/{project}/vps/{vps}` · ability `services.view` · 
 ### `ph24 vps guest <vps>`
 
 Show guest info. `GET /projects/{project}/vps/{vps}/guest` · ability `services.view` · beta
+
+### `ph24 vps handovers list <vps>`
+
+List a server's hand-overs. `GET /projects/{project}/vps/{vps}/handovers` · ability `services.handover` · beta
 
 ### `ph24 vps isos <vps>`
 
@@ -2244,3 +2270,6 @@ Read the usage again. `POST /projects/{project}/webhostings/{webhosting}/usage/r
 | `staff-ability-missing` | 403 | This staff account may not do this. |
 | `confirmation-required` | 422 | This change needs a confirmation. |
 | `firewall-limit-reached` | 409 | A firewall limit was reached. |
+| `handover-email-mismatch` | 403 | This hand-over was sent to a different e-mail address. |
+| `handover-not-pending` | 409 | This hand-over is no longer open. |
+| `service-handover-pending` | 409 | This service is being handed over to another customer. |
