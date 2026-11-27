@@ -2,7 +2,7 @@
 
 Generated from the [ph24 OpenAPI spec](https://ph24.io/docs/api/openapi.json) (ph24 API 1.0.0). Do not edit: run `bun run generate`.
 
-296 commands. ⚠ = destructive (needs `--force`), 💶 = may cost money.
+298 commands. ⚠ = destructive (needs `--force`), 💶 = may cost money.
 
 ## catalog
 
@@ -1720,6 +1720,10 @@ Preview a billing switch. `GET /projects/{project}/subscriptions/{subscription}/
 | `--billing` | hourly\|monthly_advance\|prepay | required | `hourly`, `monthly_advance` or `prepay`, as for the switch. |
 | `--prepay-months` | integer |  | With `prepay`: the months (the plan's `prepayment` periods). |
 
+### `ph24 subscriptions bonus delete <subscription>` ⚠
+
+Remove the bonus. `DELETE /projects/{project}/subscriptions/{subscription}/bonus` · ability `services.manage` · beta
+
 ### `ph24 subscriptions charges <subscription>`
 
 List a service's charges. `GET /projects/{project}/subscriptions/{subscription}/charges` · ability `services.view` · beta
@@ -1738,8 +1742,10 @@ Order a service. `POST /projects/{project}/subscriptions` · ability `services.o
 | `--addons` | json[] |  | Addons with the number of steps, e.g. `[{"addon_id": "add_…", "steps": 2}]`. Missing = none. |
 | `--auto-renew` | boolean |  | With `prepay`: `true` = you agree that the prepayment renews automatically with the same period and discount (can be turned off any time). Never assumed. |
 | `--billing` | hourly\|monthly_advance\|prepay |  | `hourly`, `monthly_advance` or `prepay` (3, 6 or 12 months in advance at the plan's discount). Missing = the product's default. Only options the catalog lists for the product / plan. |
+| `--bonus` | string |  | Beta (S-136): the free bonus chosen, a `key` of the plan's `bonus_options`. Required when the plan has any (`validation`, field `bonus`), refused when it has none. |
 | `--campaign-token` | string |  | A campaign's private link token (S-098): needed for the plans of a segment shown only through its link. |
 | `--code` | string |  | A discount coupon (`WELCOME20`). One that doesn't work refuses the order with `code-invalid`; repeated failures lock it for up to an hour. Missing: a coupon attached to the organization that fits, if  |
+| `--extras` | string[] |  | Beta (S-136): paid extras next to the bonus, keys of the plan's `bonus_options` with an `extra_price`, each at most once and never the bonus's own key (`validation`, field `extras`). |
 | `--follow-up` | hourly\|monthly_advance |  | With `prepay`: how the service is billed after the prepayment if it isn't renewed, `hourly` or `monthly_advance`. Missing = the product's default. |
 | `--immediate-start` | boolean |  | Consumers (billing profile without company name and VAT ID) only: `true` asks for the service to start at once, as the text shown says (`GET /projects/{project}/immediate-start`). Without it a consume |
 | `--immediate-start-text-version` | string |  | The `version` of the text shown with the box: `service` for a plan, `domain` for a domain. |
@@ -1819,6 +1825,10 @@ Preview a plan change. `GET /projects/{project}/subscriptions/{subscription}/pla
 |---|---|---|---|
 | `--plan-id` | string | required | The plan to price (`pln_…`), one of `plan-options`. |
 | `--keep-disk` | 0\|1 |  | Servers only: `1` keeps the current disk size on an upgrade; default `0`. |
+
+### `ph24 subscriptions promo-extras delete <subscription> <key>` ⚠ 💶
+
+Remove a promo extra. `DELETE /projects/{project}/subscriptions/{subscription}/promo-extras/{key}` · ability `services.manage` · beta
 
 ### `ph24 subscriptions renew <subscription>` 💶
 

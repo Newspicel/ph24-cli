@@ -1,11 +1,11 @@
 ---
 name: ph24-cli
-description: The ph24 CLI for the ProHosting24 (ph24.io) API, generated from its OpenAPI spec. Use for anything on ph24 / ProHosting24 from the terminal — signing in with a project API token, finding commands with ph24 cli search, ph24 schema, and running its 296 API commands (cloud, vps, kubernetes, subscriptions, domains, webhostings, dns-zones, firewalls, ip-lists, catalog, handovers). Use whenever the user mentions ph24, ProHosting24 or their servers, domains or cloud there.
+description: The ph24 CLI for the ProHosting24 (ph24.io) API, generated from its OpenAPI spec. Use for anything on ph24 / ProHosting24 from the terminal — signing in with a project API token, finding commands with ph24 cli search, ph24 schema, and running its 298 API commands (cloud, vps, kubernetes, subscriptions, domains, webhostings, dns-zones, firewalls, ip-lists, catalog, handovers). Use whenever the user mentions ph24, ProHosting24 or their servers, domains or cloud there.
 ---
 
 # ProHosting24 CLI (`ph24`)
 
-`ph24` is a command-line interface for the ph24 API (`https://ph24.io/api/v1`). Its 296 API commands are generated from the OpenAPI spec (ph24 API 1.0.0): every endpoint that works with a project API token, plus the public catalogue endpoints. Account, organization, login and token management are customer-area only and are not in the CLI.
+`ph24` is a command-line interface for the ph24 API (`https://ph24.io/api/v1`). Its 298 API commands are generated from the OpenAPI spec (ph24 API 1.0.0): every endpoint that works with a project API token, plus the public catalogue endpoints. Account, organization, login and token management are customer-area only and are not in the CLI.
 
 **Prefer retrieval over memory.** Describe the task to `ph24 cli search`, inspect the match with `ph24 schema` or `--help`, and preview with `--dry-run` before running a command you have not verified.
 
@@ -51,7 +51,7 @@ Command groups:
 - `project` (1): Projects
 - `public` (34): Public, Developers, Catalog, Cloud images, Account, Domains
 - `realtime` (1): Projects
-- `subscriptions` (19): Services
+- `subscriptions` (21): Services
 - `vps` (35): Servers, Server firewalls, Services
 - `webhostings` (16): Webhosting
 
@@ -74,7 +74,7 @@ Command groups:
 ## Run commands safely
 
 - **Preview first.** `--dry-run` prints the request without sending it and needs no credentials.
-- **Destructive commands need `--force`.** 44 commands (every delete, and endpoints whose docs say data or access is lost, e.g. `vps reinstall`, `cloud servers rebuild`, `subscriptions end`) refuse to run without a terminal unless `--force` is given, and exit 2. Get the user's explicit go-ahead before adding `--force`.
+- **Destructive commands need `--force`.** 46 commands (every delete, and endpoints whose docs say data or access is lost, e.g. `vps reinstall`, `cloud servers rebuild`, `subscriptions end`) refuse to run without a terminal unless `--force` is given, and exit 2. Get the user's explicit go-ahead before adding `--force`.
 - **Commands that cost money** are marked `costs_money` in `cli search` and `schema` (orders, cloud resources, renewals). Show the user the price (quote / price-preview commands) and confirm before running them.
 
 ## Errors
